@@ -15,7 +15,8 @@
         "laravel/framework": "^8.0",
         "laravel/tinker": "^2.0",
         "laravelcollective/html": "^6.4",
-        "mailerlite/mailerlite-php": "^1.0"
+        "mailerlite/mailerlite-php": "^1.0",
+        "yajra/laravel-datatables": "^1.0"
     },
     "require-dev": {
         "facade/ignition": "^2.3.6",

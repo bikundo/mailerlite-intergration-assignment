@@ -25,7 +25,7 @@ class Setting extends Model
     public function set($key, $value)
     {
         $setting = self::firstOrNew(['key' => $key]);
-        $setting->$value = $value;
+        $setting->value = $value;
         $setting->save();
 
         return true;

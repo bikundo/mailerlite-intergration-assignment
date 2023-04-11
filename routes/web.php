@@ -1,6 +1,7 @@
 <?php
 
-use App\Http\Controllers\MailerLiteController;
+use App\Http\Controllers\MailerLiteTokenController;
+use App\Http\Controllers\SubscriberController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -19,9 +20,12 @@ Route::get('/', function () {
 });
 
 Route::prefix('mailerlite')->group(function () {
-    Route::get('/home', [MailerLiteController::class, 'home'])->name('mailerlite.home');
-    Route::get('/index', [MailerLiteController::class, 'index'])->name('mailerlite.index');
-    Route::get('/api-token', [MailerLiteController::class, 'createApiToken'])->name('mailerlite.token.create');
-    Route::post('/api-token', [MailerLiteController::class, 'storeApiToken'])->name('mailerlite.token.validate');
+    Route::get('/home', [MailerLiteTokenController::class, 'home'])->name('mailerlite.home');
+    Route::get('/index', [MailerLiteTokenController::class, 'index'])->name('mailerlite.index');
+    Route::get('/api-token', [MailerLiteTokenController::class, 'create'])->name('mailerlite.token.create');
+    Route::post('/api-token', [MailerLiteTokenController::class, 'store'])->name('mailerlite.token.validate');
+
+    Route::resource('subscribers', SubscriberController::class);
+
 });
 

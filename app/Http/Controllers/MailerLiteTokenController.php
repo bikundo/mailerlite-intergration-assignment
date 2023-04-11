@@ -4,21 +4,18 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreApiTokenRequest;
 use App\Models\Setting;
-use Exception;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
-use MailerLite\MailerLite;
 
-class MailerLiteController extends Controller
+class MailerLiteTokenController extends Controller
 {
-    public function home()
+    public function index()
     : RedirectResponse
     {
         if (Setting::has('mailerlite_api_token')) {
-            return redirect()->route('mailerlite.index');
+            return redirect()->route('mailerlite.subscribers.index');
         }
 
         return redirect()->route('mailerlite.token.create');
@@ -27,7 +24,7 @@ class MailerLiteController extends Controller
     /**
      * @return Application|Factory|View
      */
-    public function createApiToken()
+    public function create()
     {
 
         return view('mailerlite.token-form');
@@ -38,7 +35,7 @@ class MailerLiteController extends Controller
      *
      * @return RedirectResponse
      */
-    public function storeApiToken(StoreApiTokenRequest $request)
+    public function store(StoreApiTokenRequest $request)
     : RedirectResponse {
         $mailerLiteApiToken = $request->input('api_token');
 
