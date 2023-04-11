@@ -14,5 +14,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
+
+    dd(\App\Models\Setting::value('mailer_lite_api_token'));
     return view('welcome');
 });
