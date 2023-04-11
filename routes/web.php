@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\MailerLiteController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -15,6 +16,12 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
 
-    dd(\App\Models\Setting::value('mailer_lite_api_token'));
     return view('welcome');
 });
+
+Route::prefix('mailerlite')->group(function () {
+    Route::get('/home', [MailerLiteController::class, 'home'])->name('mailerlite.home');
+    Route::get('/index', [MailerLiteController::class, 'index'])->name('mailerlite.index');
+    Route::get('/api-token', [MailerLiteController::class, 'createApiToken'])->name('mailerlite.token.create');
+});
+
