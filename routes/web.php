@@ -16,16 +16,12 @@ use Illuminate\Support\Facades\Route;
 */
 
 
+Route::get('/', [MailerLiteTokenController::class, 'index'])->name('mailerlite.index');
+Route::get('/api-token', [MailerLiteTokenController::class, 'create'])->name('mailerlite.token.create');
+Route::post('/api-token', [MailerLiteTokenController::class, 'store'])->name('mailerlite.token.validate');
 
-Route::prefix('mailerlite')->group(function () {
+Route::get('/datatables/subscribers', [SubscriberController::class, 'datatables'])->name('mailerlite.subscribers.table');
 
-    Route::get('/', [MailerLiteTokenController::class, 'index'])->name('mailerlite.index');
-    Route::get('/api-token', [MailerLiteTokenController::class, 'create'])->name('mailerlite.token.create');
-    Route::post('/api-token', [MailerLiteTokenController::class, 'store'])->name('mailerlite.token.validate');
+Route::resource('subscribers', SubscriberController::class);
 
-    Route::get('/datatables/subscribers', [SubscriberController::class, 'datatables'])->name('mailerlite.subscribers.table');
-
-    Route::resource('subscribers', SubscriberController::class);
-
-});
 

@@ -11,18 +11,18 @@ class Setting extends Model
 
     protected $fillable = ['key', 'value'];
 
-    public function has($key)
+    public static function has($key)
     {
         return (boolean) self::where('key', $key)->count();
     }
 
-    public function value($key)
+    public static function value($key)
     {
 
         return self::where('key', $key)->pluck('value')->first();
     }
 
-    public function set($key, $value)
+    public static function set($key, $value)
     {
         $setting = self::firstOrNew(['key' => $key]);
         $setting->value = $value;
