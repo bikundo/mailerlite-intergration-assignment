@@ -4,24 +4,38 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\CreateSubscriberRequest;
 use App\Models\Setting;
+use App\Services\MailerliteService;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Arr;
 use MailerLite\MailerLite;
+use Yajra\DataTables\Facades\DataTables;
 
 class SubscriberController extends Controller
 {
     /**
      * Display a listing of all subscribers on the API.
      *
-     * @return Response
+     * @return Application|Factory|View
      */
     public function index()
     {
-        //
+        return view('subscribers.index');
+    }
+
+    public function datatables(Request $request)
+    {
+        $mailerLite = new MailerLite(['api_key' => Setting::value('mailerlite_api_token')]);
+        $subscribers = $mailerLite->subscribers->get();
+
+        $sanitizedData = (new MailerliteService())->sanitizeData(Arr::get($subscribers, 'body.data', []));
+
+        return DataTables::collection($sanitizedData)->toJson();
     }
 
     /**
