@@ -6,15 +6,17 @@
 
             {{ Form::open(['route' => 'mailerlite.token.validate', 'class' => 'bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4']) }}
             <div class="mb-6">
+                <h1>Save new API token</h1>
+                <hr class=" mb-6">
                 <label class="block text-gray-700 text-sm font-bold mb-2" for="api_token">
                     MailerLite API Token
                 </label>
                 <input name="api_token" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline" id="text" type="text" placeholder="your MailerLite API token" value="{{ old('api_token') }}">
-               @if($errors->has('api_token'))
+                @if($errors->has('api_token'))
                     <p class="text-red-500 text-xs italic">
                         {{$errors->first('api_token')}}
                     </p>
-               @endif
+                @endif
             </div>
             <div class="flex items-center justify-between">
                 <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="submit">
