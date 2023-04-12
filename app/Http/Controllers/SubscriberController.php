@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\CreateSubscriberRequest;
 use App\Models\Setting;
 use App\Services\MailerliteService;
+use Exception;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
@@ -125,12 +126,21 @@ class SubscriberController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  string  $email
      *
-     * @return Response
+     * @return string
      */
-    public function destroy($id)
+    public function destroy($email)
     {
-        //
+        $mailerLite = new MailerLite(['api_key' => Setting::value('mailerlite_api_token')]);
+
+        try {
+            $mailerLite->subscribers->delete($email);
+
+            return 'Subscriber deleted Successfully';
+        } catch (Exception $ex) {
+
+            return 'Resource not found.';
+        }
     }
 }
