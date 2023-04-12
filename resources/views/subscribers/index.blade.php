@@ -11,7 +11,13 @@
 </head>
 <body>
 <div class="container">
+
     <h2>MailerLite Subscribers</h2>
+    @if(Session::has('message'))
+        <div class="alert alert-info" role="alert">
+            {{Session::get('message')}}
+        </div>
+    @endif
     <table class="table table-bordered" id="table">
         <thead>
         <tr>

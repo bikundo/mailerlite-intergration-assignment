@@ -40,13 +40,13 @@ class SubscriberController extends Controller
             ->addColumn('actions', function ($row) {
 
                 // Delete Button
-                $deleteButton = "<a class='btn btn-sm btn-danger deleteUser' data-id='" . $row['email'] . "'><i class='fa-solid fa-trash'></i>delete</a>";
+                $deleteButton = "<a class='btn btn-sm btn-danger deleteUser' data-id='" . $row['id'] . "'><i class='fa-solid fa-trash'></i>delete</a>";
 
                 return $deleteButton;
 
             })
             ->editColumn('email', function ($row) {
-                return '<a href="#">' . $row['email'] . '</a>';
+                return '<a href="' . route('subscribers.edit', $row['id']) . '">' . $row['email'] . '</a>';
             })
             ->rawColumns(['actions', 'email'])
             ->toJson();
@@ -103,39 +103,50 @@ class SubscriberController extends Controller
      *
      * @param  int  $id
      *
-     * @return Response
+     * @return Application|Factory|View
      */
-    public function edit($id)
+    public function edit(string $id)
     {
-        //
+        $mailerLite = new MailerLite(['api_key' => Setting::value('mailerlite_api_token')]);
+        $subscriber = $mailerLite->subscribers->find($id);
+
+        $sanitizedData = (new MailerliteService())->cleanRow(Arr::get($subscriber, 'body.data', []));
+
+        return view('subscribers.edit')->with('subscriber', $sanitizedData);
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  Request  $request
-     * @param  int      $id
+     * @param  int   $id
      *
-     * @return Response
+     * @return RedirectResponse
      */
     public function update(Request $request, $id)
     {
-        //
+        $mailerLite = new MailerLite(['api_key' => Setting::value('mailerlite_api_token')]);
+        $data = collect([]);
+        $data->put('fields', $request->only(['name', 'country']));
+
+        $mailerLite->subscribers->update($id, $data->toArray());
+
+        return redirect()->route('subscribers.index')->with('message', 'subscriber successfully updated!');
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  string  $email
+     * @param  int  $id
      *
      * @return string
      */
-    public function destroy($email)
+    public function destroy(int $id)
     {
         $mailerLite = new MailerLite(['api_key' => Setting::value('mailerlite_api_token')]);
 
         try {
-            $mailerLite->subscribers->delete($email);
+            $mailerLite->subscribers->delete($id);
 
             return 'Subscriber deleted Successfully';
         } catch (Exception $ex) {

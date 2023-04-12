@@ -33,9 +33,10 @@ class MailerliteService
         return $sanitizedCollection;
     }
 
-    private function cleanRow($rawRowData)
+    public function cleanRow($rawRowData)
     {
         $rowCollection = collect([]);
+        $rowCollection->put('id', Arr::get($rawRowData, 'id'));
         $rowCollection->put('email', Arr::get($rawRowData, 'email'));
         $rowCollection->put('name', Arr::get($rawRowData, 'fields.name'));
         $rowCollection->put('country', Arr::get($rawRowData, 'fields.country'));
