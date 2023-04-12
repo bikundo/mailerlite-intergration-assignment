@@ -19,6 +19,7 @@
             <th>Email</th>
             <th>subscribe date</th>
             <th>subscribe time</th>
+            <th>actions</th>
         </tr>
         </thead>
     </table>
@@ -30,11 +31,12 @@
             serverSide: true,
             ajax: '{{ route('mailerlite.subscribers.table') }}',
             columns: [
-                {data: 'email', name: 'email'},
-                {data: 'name', name: 'name'},
-                {data: 'country', name: 'country'},
-                {data: 'subscribe_date', name: 'subscribe_date'},
-                {data: 'subscribe_time', name: 'subscribe_time'},
+                {data: 'email', name: 'email', 'searchable': true},
+                {data: 'name', name: 'name', 'searchable': false},
+                {data: 'country', name: 'country', 'searchable': false},
+                {data: 'subscribe_date', name: 'subscribe_date', 'searchable': false},
+                {data: 'subscribe_time', name: 'subscribe_time', 'searchable': false},
+                {data:'actions', name: 'actions', 'searchable': false},
             ]
         });
     });

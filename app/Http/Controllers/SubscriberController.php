@@ -8,7 +8,6 @@ use App\Services\MailerliteService;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
-use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -30,12 +29,26 @@ class SubscriberController extends Controller
 
     public function datatables(Request $request)
     {
+        $limit = $request->get('length', 10);
         $mailerLite = new MailerLite(['api_key' => Setting::value('mailerlite_api_token')]);
-        $subscribers = $mailerLite->subscribers->get();
+        $subscribers = $mailerLite->subscribers->get(['limit' => $limit]);
 
         $sanitizedData = (new MailerliteService())->sanitizeData(Arr::get($subscribers, 'body.data', []));
 
-        return DataTables::collection($sanitizedData)->toJson();
+        return DataTables::collection($sanitizedData)
+            ->addColumn('actions', function ($row) {
+
+                // Delete Button
+                $deleteButton = "<a class='btn btn-sm btn-danger deleteUser' data-id='" . $row['email'] . "'><i class='fa-solid fa-trash'></i>delete</a>";
+
+                return $deleteButton;
+
+            })
+            ->editColumn('email', function ($row) {
+                return '<a href="#">' . $row['email'] . '</a>';
+            })
+            ->rawColumns(['actions', 'email'])
+            ->toJson();
     }
 
     /**
