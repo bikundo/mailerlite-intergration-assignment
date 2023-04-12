@@ -15,7 +15,7 @@ class MailerLiteTokenController extends Controller
     : RedirectResponse
     {
         if (Setting::has('mailerlite_api_token')) {
-            return redirect()->route('mailerlite.subscribers.index');
+            return redirect()->route('subscribers.index');
         }
 
         return redirect()->route('mailerlite.token.create');

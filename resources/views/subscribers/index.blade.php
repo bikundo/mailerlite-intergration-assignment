@@ -10,14 +10,21 @@
     <script src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
 </head>
 <body>
-<div class="container">
+<div class="container ">
 
     <h2>MailerLite Subscribers</h2>
+    <div class="clearfix">
+        <button class="pull-right btn btn-primary">create subscriber</button>
+    </div>
+    <hr>
     @if(Session::has('message'))
         <div class="alert alert-info" role="alert">
             {{Session::get('message')}}
         </div>
     @endif
+    <div id="js-alert">
+
+    </div>
     <table class="table table-bordered" id="table">
         <thead>
         <tr>
@@ -60,7 +67,10 @@
                 data: {_token: CSRF_TOKEN},
                 success: function (response) {
                     subscrbersTable.ajax.reload();
-                    alert(response);
+                    document.getElementById("js-alert").innerHTML +=
+                        "<div class='alert alert-info' role='alert'>"
+                        + response.message +
+                        "</div>";
 
                 }
             });

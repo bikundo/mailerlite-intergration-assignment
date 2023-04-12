@@ -9,6 +9,7 @@ use Exception;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -119,7 +120,7 @@ class SubscriberController extends Controller
      * Update the specified resource in storage.
      *
      * @param  Request  $request
-     * @param  int   $id
+     * @param  int      $id
      *
      * @return RedirectResponse
      */
@@ -139,7 +140,7 @@ class SubscriberController extends Controller
      *
      * @param  int  $id
      *
-     * @return string
+     * @return JsonResponse
      */
     public function destroy(int $id)
     {
@@ -148,10 +149,10 @@ class SubscriberController extends Controller
         try {
             $mailerLite->subscribers->delete($id);
 
-            return 'Subscriber deleted Successfully';
+            return response()->json(['message' => 'Subscriber deleted Successfully']);
         } catch (Exception $ex) {
 
-            return 'Resource not found.';
+            return response()->json(['message' => 'Resource not found.']);
         }
     }
 }

@@ -15,13 +15,11 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+
 
 Route::prefix('mailerlite')->group(function () {
-    Route::get('/home', [MailerLiteTokenController::class, 'home'])->name('mailerlite.home');
-    Route::get('/index', [MailerLiteTokenController::class, 'index'])->name('mailerlite.index');
+
+    Route::get('/', [MailerLiteTokenController::class, 'index'])->name('mailerlite.index');
     Route::get('/api-token', [MailerLiteTokenController::class, 'create'])->name('mailerlite.token.create');
     Route::post('/api-token', [MailerLiteTokenController::class, 'store'])->name('mailerlite.token.validate');
 
