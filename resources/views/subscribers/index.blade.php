@@ -1,7 +1,6 @@
 <html lang="en">
 <head>
     <title>MailerLite Subscribers</title>
-    <meta name="csrf-token" content="{{ csrf_token() }}">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.0/jquery.min.js" integrity="sha256-xNzN2a4ltkB44Mc/Jz3pT4iU1cmeR0FkXs4pru/JxaQ=" crossorigin="anonymous"></script>
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css" rel="stylesheet">
@@ -57,14 +56,13 @@
         // Delete record
         $('#table').on('click', '.deleteUser', function () {
             let id = $(this).data('id');
-            let CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
 
             console.log(id)
 
             $.ajax({
                 url: "{{ url('/mailerlite/subscribers/'). '/' }}" + id,
                 type: 'DELETE',
-                data: {_token: CSRF_TOKEN},
+                data: {},
                 success: function (response) {
                     subscrbersTable.ajax.reload();
                     document.getElementById("js-alert").innerHTML +=
