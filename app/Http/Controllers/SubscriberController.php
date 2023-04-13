@@ -96,11 +96,20 @@ class SubscriberController extends Controller
      *
      * @param  int  $id
      *
-     * @return Response
+     * @return JsonResponse
      */
     public function show($id)
     {
-        //
+        $mailerLite = new MailerLite(['api_key' => Setting::value('mailerlite_api_token')]);
+
+        try {
+            $response = $mailerLite->subscribers->find($id);
+
+            return response()->json(['data' => Arr::get($response, 'body.data')]);
+        } catch (Exception $ex) {
+
+            return response()->json(['message' => 'Resource not found.'], 404);
+        }
     }
 
     /**
@@ -156,7 +165,7 @@ class SubscriberController extends Controller
             return response()->json(['message' => 'Subscriber deleted Successfully']);
         } catch (Exception $ex) {
 
-            return response()->json(['message' => 'Resource not found.']);
+            return response()->json(['message' => 'Resource not found.'], 404);
         }
     }
 }
