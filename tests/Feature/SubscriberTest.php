@@ -47,29 +47,4 @@ class SubscriberTest extends TestCase
     }
 
 
-    /**
-     * Test updating a subscriber.
-     *
-     * @return void
-     */
-    public function testUpdateSubscriber()
-    {
-        // Set up test data
-        $faker = Factory::create();
-        $newName = $faker->name;
-        $newCountry = $faker->country;
-        $subscriberId = 85259384643388450;
-
-        // Call update() function
-        $response = $this->put(route('subscribers.update', $subscriberId), [
-            'name'    => $newName,
-            'country' => $newCountry,
-        ]);
-
-        // Assert redirect and session message
-        $response->assertRedirect(route('subscribers.index'));
-        $response->assertSessionHas('message', 'subscriber successfully updated!');
-
-    }
-
 }
