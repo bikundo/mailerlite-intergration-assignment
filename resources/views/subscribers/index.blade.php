@@ -13,7 +13,7 @@
 
     <h2>MailerLite Subscribers</h2>
     <div class="clearfix">
-        <button class="pull-right btn btn-primary">create subscriber</button>
+        <a href="{{route('subscribers.create')}}" class="pull-right btn btn-primary">create subscriber</a>
     </div>
     <hr>
     @if(Session::has('message'))
@@ -39,7 +39,7 @@
 </div>
 <script>
     $(function () {
-        let subscrbersTable = $('#table').DataTable({
+        let subscribersTable = $('#table').DataTable({
             processing: true,
             serverSide: true,
             ajax: '{{ route('mailerlite.subscribers.table') }}',
@@ -60,11 +60,12 @@
             console.log(id)
 
             $.ajax({
-                url: "{{ url('/mailerlite/subscribers/'). '/' }}" + id,
+                url: "{{ url('/subscribers/'). '/' }}" + id,
                 type: 'DELETE',
                 data: {},
                 success: function (response) {
-                    subscrbersTable.ajax.reload();
+                    //reload table without refreshing the page
+                    subscribersTable.ajax.reload();
                     document.getElementById("js-alert").innerHTML +=
                         "<div class='alert alert-info' role='alert'>"
                         + response.message +

@@ -22,10 +22,14 @@ class SubscriberController extends Controller
     /**
      * Display a listing of all subscribers on the API.
      *
-     * @return Application|Factory|View
+     * @return Application|Factory|View|RedirectResponse
      */
     public function index()
     {
+        if (!Setting::has('mailerlite_api_token')) {
+            return redirect()->route('mailerlite.token.create');
+        }
+
         return view('subscribers.index');
     }
 
