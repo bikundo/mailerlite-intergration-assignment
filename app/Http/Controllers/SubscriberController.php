@@ -12,7 +12,6 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
 use Illuminate\Support\Arr;
 use MailerLite\MailerLite;
 use Yajra\DataTables\Facades\DataTables;
@@ -45,9 +44,7 @@ class SubscriberController extends Controller
             ->addColumn('actions', function ($row) {
 
                 // Delete Button
-                $deleteButton = "<a class='btn btn-sm btn-danger deleteUser' data-id='" . $row['id'] . "'><i class='fa-solid fa-trash'></i>delete</a>";
-
-                return $deleteButton;
+                return "<a class='btn btn-sm btn-danger deleteUser' data-id='" . $row['id'] . "'><i class='fa-solid fa-trash'></i>delete</a>";
 
             })
             ->editColumn('email', function ($row) {

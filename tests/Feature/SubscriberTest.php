@@ -3,10 +3,7 @@
 namespace Tests\Feature;
 
 use App\Http\Requests\CreateSubscriberRequest;
-use App\Models\Setting;
 use Faker\Factory;
-use Illuminate\Http\Request;
-use MailerLite\MailerLite;
 use Tests\TestCase;
 
 class SubscriberTest extends TestCase

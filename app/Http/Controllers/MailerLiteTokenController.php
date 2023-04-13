@@ -39,7 +39,7 @@ class MailerLiteTokenController extends Controller
     : RedirectResponse {
         $mailerLiteApiToken = $request->input('api_token');
 
-        // Save the valid key in the database
+        // Save the valid token in the database
         Setting::set('mailerlite_api_token', $mailerLiteApiToken);
 
         return redirect()->back()->with('success', 'API key saved successfully!');

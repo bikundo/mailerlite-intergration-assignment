@@ -42,7 +42,7 @@
         let subscribersTable = $('#table').DataTable({
             processing: true,
             serverSide: true,
-            ajax: '{{ route('mailerlite.subscribers.table') }}',
+            ajax: '{{ route('subscribers.table') }}',
             columns: [
                 {data: 'email', name: 'email', 'searchable': true},
                 {data: 'name', name: 'name', 'searchable': false},
@@ -54,7 +54,7 @@
         });
 
         // Delete record
-        $('#table').on('click', '.deleteUser', function () {
+        subscribersTable.on('click', '.deleteUser', function () {
             let id = $(this).data('id');
 
             console.log(id)
